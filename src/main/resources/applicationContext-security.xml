@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<global-method-security pre-post-annotations="enabled" proxy-target-class="true" />
+
+
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleVoter">
+		<beans:property name="rolePrefix" value="" />
+	</beans:bean>
+
+	<http auto-config='true' use-expressions="true" create-session="always">
+
+		<intercept-url pattern="/modular-backbone/" access="permitAll" />
+		<intercept-url pattern="/modular-backbone/index.html" access="permitAll" />
+		<intercept-url pattern="/modular-backbone/css/**" access="permitAll" />
+
+		<intercept-url pattern="/modular-backbone/js/views/user/userView.js" access="isAuthenticated()" />
+		<intercept-url pattern="/modular-backbone/templates/user/**" access="isAuthenticated()" />
+
+		<intercept-url pattern="/modular-backbone/js/views/users/**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/modular-backbone/templates/users/**" access="hasRole('ROLE_ADMIN')" />
+
+		<logout logout-success-url="/modular-backbone/index.html#" />
+		<form-login login-page="/modular-backbone/" />
+		<!-- authentication-failure-url="/modular-backbone/#login" -->
+		<form-login />
+		<logout />
+		<session-management invalid-session-url="/modular-backbone/#/sessionTimeout" />
+	</http>
+
+	<beans:bean id="applicationUserService" class="de.codiacs.rest.service.ApplicationUserServiceImpl" />
+
+	<beans:bean id="shaPasswordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+
+	<authentication-manager>
+		<authentication-provider user-service-ref="applicationUserService">
+			<password-encoder ref="shaPasswordEncoder">
+				<salt-source user-property="username" />
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+
+
+</beans:beans>
