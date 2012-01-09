@@ -18,12 +18,9 @@ define([ 'jQuery', 'Underscore', 'Backbone', 'services/ApplicationService', 'tex
 			});
 			this.model.fetch();
 			this.model.bind("change", this.render2, this);
-			// this.model.bind("change", function() {
-			// Eventbus.get().trigger("USER_CHANGED", this.model)
-			// });
 			this.render2();
 
-			$("#userForm").bind("submit", this.doSave);
+			// $("#userForm").bind("submit", this.doSave);
 		},
 
 		render2 : function() {
@@ -32,30 +29,40 @@ define([ 'jQuery', 'Underscore', 'Backbone', 'services/ApplicationService', 'tex
 			$("div.formular").removeClass("red");
 			if (this.model.get("violations") != null) {
 				for ( var i in this.model.get("violations")) {
-					$("#" + this.model.get("violations")[i]).addClass("red");
+					$('[name="userDetails_' + this.model.get("violations")[i] + '"]').addClass("red");
 				}
 			}
-			Eventbus.get().trigger("USER_CHANGED", this.model)
-			// alert(this.model.get("violations"));
 		},
+
 		show : function() {
 			this.content.show();
 
 		},
+
 		events : {
 			"change #userForm input" : "fieldChanged",
 			"submit #userForm" : "doSave"
 		},
+
 		fieldChanged : function(e) {
 			var field = $(e.currentTarget);
 			var data = {};
-			data[field.attr('id')] = field.val();
+			data[field.attr('name').replace("userDetails_", "")] = field.val();
 			this.model.set(data);
 		},
+
 		doSave : function() {
-			this.model.save();
+			this.model.save({}, {
+				success : function(model) {
+					if (model.get("violations") && model.get("violations").length < 1) {
+						Eventbus.get().trigger("USER_CHANGED", model)
+					}
+				}
+
+			});
 			return false;
-		}
+		},
 	});
+
 	return new UserView();
 });

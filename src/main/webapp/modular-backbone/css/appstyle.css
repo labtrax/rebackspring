@@ -66,3 +66,11 @@ div.red input {
 div.red label {
 	color: red;
 }
+
+label.red {
+	color: red;	
+}
+
+input.red {
+	background-color: #FFD1D1;	
+}

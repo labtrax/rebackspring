@@ -1,1 +1,1 @@
-var globalsRestUrl = "http://localhost:8080/SpringMVC/rest/";
+var globalsRestUrl = "http://localhost:8080/rebackspring/rest/";

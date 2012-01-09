@@ -67,7 +67,7 @@ public class UserController implements Serializable {
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
 	public @ResponseBody
 	User update(@PathVariable Long id, @RequestBody User user) {
-System.out.println(user.getName());
+
 		Set<ConstraintViolation<User>> violations = validator.validate(user);
 		ArrayList<String> violationsSet = new ArrayList<String>();
 		for (Iterator<ConstraintViolation<User>> i = violations.iterator(); i.hasNext();) {
@@ -75,10 +75,13 @@ System.out.println(user.getName());
 			logger.info(violation.toString());
 			violationsSet.add(violation.getPropertyPath().toString());
 		}
-		user.setViolations(violationsSet);
 
-		user.setUserName(user.getUserName() + System.currentTimeMillis());
-		ApplicationUserServiceImpl.users.put(user.getId(), user);
+		user.setViolations(violationsSet);
+		
+		if(user.getViolations().size() < 1) {
+			ApplicationUserServiceImpl.users.put(user.getId(), user);
+		}
+		
 		return user;
 	}
 
@@ -101,7 +104,6 @@ System.out.println(user.getName());
 	public @ResponseBody
 	User authenticate(HttpServletRequest request) {
 
-		System.out.println(ApplicationUserServiceImpl.users.size() + "");
 		String userName = request.getParameter("userName");
 		String password = request.getParameter("password");
 		applicationUserServiceImpl.authenticate(userName, password);

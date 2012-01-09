@@ -17,9 +17,11 @@ public class User implements Serializable{
 	private Long id;
 
 	@NotNull
-	@Length(min = 50, max = 100)
+	@Length(min = 10, max = 100)
 	private String userName;
 	
+	@NotNull
+	@Length(min = 10, max = 100)
 	private String name;
 	
 	private Long lastModified;

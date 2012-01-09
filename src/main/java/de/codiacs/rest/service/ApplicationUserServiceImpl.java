@@ -25,7 +25,7 @@ import de.codiacs.rest.entity.User;
 public class ApplicationUserServiceImpl implements UserDetailsService {
 
 	private Logger logger = LoggerFactory.getLogger(ApplicationUserServiceImpl.class);
-	
+
 	@Autowired
 	@Qualifier("org.springframework.security.authentication.ProviderManager#0")
 	private ProviderManager authenticationManager;
@@ -38,18 +38,18 @@ public class ApplicationUserServiceImpl implements UserDetailsService {
 	static {
 		User user1 = new User();
 		user1.setId(1l);
-		user1.setName("user");
-		user1.setUserName("user");
-		user1.setPassword("6e586a16907acef72e64e21c9f8d2dc1e7e40dd7");
+		user1.setName("users name");
+		user1.setUserName("testuser");
+		user1.setPassword("7c57dba07fc8297eee1255a4b14aef69415ccc42");
 		user1.setCurrentRole(new Role("ROLE_USER"));
 
 		User admin = new User();
 		admin.setId(2l);
-		admin.setName("crowdmedia");
-		admin.setUserName("crowdmedia");
-		admin.setPassword("0bcebd0179c166320f12e4c93debdc7e30fd23bc");
+		admin.setName("admins name");
+		admin.setUserName("admin");
+		admin.setPassword("4d75af119789248cd7cfed0ca64be19bfe7650a7");
 		admin.setCurrentRole(new Role("ROLE_ADMIN"));
-		
+
 		users.put(user1.getId(), user1);
 		users.put(admin.getId(), admin);
 	}
