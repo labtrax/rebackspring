@@ -28,7 +28,7 @@ define(
 				showUser : function() {
 					Tools.resetViewAndNavigation();
 					if (userView == null) {
-							require([ 'views/user/userView' ], function(userView) {
+							require([ 'views/user/UserView' ], function(userView) {
 								this.userView = userView;
 								this.userView.show();
 							});
@@ -42,7 +42,7 @@ define(
 				showUsers : function() {
 					Tools.resetViewAndNavigation();
 					if (usersView == null) {
-							require([ 'views/users/usersView' ], function(usersView) {								
+							require([ 'views/users/UsersView' ], function(usersView) {								
 								this.usersView = usersView;
 								this.usersView.show();
 							});

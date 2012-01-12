@@ -1,1 +1,4 @@
-<li><%= id %>, <%= name %>, <%= userName %></a> <button class="userDelete">delete</button></li>
+<li>ID: <%= id %>, NAME: <%= name %>, USERNAME: <%= userName %></a>, ROLE: <%= currentRole.name %>
+<% if(currentUserId != id) { %>
+	<button class="userDelete">delete</button> <% } %>
+</li>

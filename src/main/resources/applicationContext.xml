@@ -10,7 +10,7 @@
 
 	<import resource="classpath:applicationContext-security.xml" />
 
-	<context:component-scan base-package="de.codiacs.rest.service" />
+	<context:component-scan base-package="de.codiacs.rest.service" scoped-proxy="targetClass" />
 
 	<mvc:annotation-driven />
 

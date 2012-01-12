@@ -7,7 +7,7 @@ define([ 'jQuery', 'Underscore', 'Backbone', 'services/ApplicationService', 'tex
 
 		initialize : function() {
 
-			this.el.append("<div id='user'></div>");
+			this.el.append("<div id='user'><div id='userDetails'></div></div>");
 			this.content = $("#user");
 
 			this.content.hide();
@@ -19,13 +19,12 @@ define([ 'jQuery', 'Underscore', 'Backbone', 'services/ApplicationService', 'tex
 			this.model.fetch();
 			this.model.bind("change", this.render2, this);
 			this.render2();
-
-			// $("#userForm").bind("submit", this.doSave);
+			$('#user').append('<input type="submit" id="saveAccount" class="save" value="save">');
 		},
 
 		render2 : function() {
 			this.compiledTemplate = _.template(userTemplate, this.model.toJSON());
-			$("#user").html(this.compiledTemplate);
+			$("#userDetails").html(this.compiledTemplate);
 			$("div.formular").removeClass("red");
 			if (this.model.get("violations") != null) {
 				for ( var i in this.model.get("violations")) {
@@ -40,8 +39,8 @@ define([ 'jQuery', 'Underscore', 'Backbone', 'services/ApplicationService', 'tex
 		},
 
 		events : {
+			"click #saveAccount" : "doSave",
 			"change #userForm input" : "fieldChanged",
-			"submit #userForm" : "doSave"
 		},
 
 		fieldChanged : function(e) {
@@ -49,6 +48,7 @@ define([ 'jQuery', 'Underscore', 'Backbone', 'services/ApplicationService', 'tex
 			var data = {};
 			data[field.attr('name').replace("userDetails_", "")] = field.val();
 			this.model.set(data);
+			return true;
 		},
 
 		doSave : function() {

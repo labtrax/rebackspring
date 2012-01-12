@@ -40,22 +40,31 @@ public class UserController implements Serializable {
 	@Autowired
 	private ApplicationUserServiceImpl applicationUserServiceImpl;
 
-	// @PreAuthorize("hasRole('ROLE_USER')")
+	@Autowired
+	private ApplicationUsersService applicationUsersService;
+
 	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
 	public @ResponseBody
 	User findOne(@PathVariable Long id, HttpServletRequest request) {
 
-		return ApplicationUserServiceImpl.users.get(id);
+		// We have to to a bit of dirty security here
+		if (applicationUserServiceImpl.getCurrentUser().getCurrentRole().getName().equals("ROLE_ADMIN")) {
+			return applicationUsersService.getUsers().get(id);
+		} else {
+			return applicationUserServiceImpl.getCurrentUser();
+		}
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public @ResponseBody
 	List<User> findAll() {
 
-		return new ArrayList<User>(ApplicationUserServiceImpl.users.values());
+		return new ArrayList<User>(applicationUsersService.getUsers().values());
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.POST)
 	public @ResponseBody
 	User add(@RequestBody User user) {
@@ -64,9 +73,16 @@ public class UserController implements Serializable {
 		return user;
 	}
 
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)
 	public @ResponseBody
 	User update(@PathVariable Long id, @RequestBody User user) {
+
+		// We have to to a bit of dirty security here
+		if (!applicationUserServiceImpl.getCurrentUser().getCurrentRole().getName().equals("ROLE_ADMIN")
+				&& !applicationUserServiceImpl.getCurrentUser().getId().equals(id)) {
+			throw new IllegalAccessError();
+		}
 
 		Set<ConstraintViolation<User>> violations = validator.validate(user);
 		ArrayList<String> violationsSet = new ArrayList<String>();
@@ -77,20 +93,21 @@ public class UserController implements Serializable {
 		}
 
 		user.setViolations(violationsSet);
-		
-		if(user.getViolations().size() < 1) {
-			ApplicationUserServiceImpl.users.put(user.getId(), user);
+
+		if (user.getViolations().size() < 1) {
+			applicationUsersService.getUsers().put(user.getId(), user);
 		}
-		
+
 		return user;
 	}
 
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-	// @ResponseStatus(HttpStatus.OK);
+	@ResponseStatus(value = HttpStatus.OK)
 	public @ResponseBody
 	void delete(@PathVariable Long id, HttpServletRequest request) {
 
-		ApplicationUserServiceImpl.users.remove(id);
+		applicationUsersService.getUsers().remove(id);
 	}
 
 	@RequestMapping(value = "/users/getCurrentUser", method = RequestMethod.GET)
@@ -127,7 +144,6 @@ public class UserController implements Serializable {
 		try {
 			Thread.sleep(4000);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

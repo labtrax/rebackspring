@@ -1,25 +1,21 @@
-<div id="userDetails">
-	<br />
-	<form id="userForm" action="">
-		<table border="0">
-			<tr>
-				<td><label>Id:</label></td>
-				<td><input id="id" name="id" type="text" value="<%= id %>" disabled /></td>
-			</tr>
-			<tr>
-				<td><label name="userDetails_userName">Username<br />(min. 10, max. 50 chars)
-				</label></td>
-				<td><input type="text" name="userDetails_userName" value="<%= userName %>" required /></td>
-			</tr>
-			<tr>
-				<td><label name="userDetails_name">Name<br />(min. 10, max. 50 chars)
-				</label></td>
-				<td><input type="text" name="userDetails_name" value="<%= name %>" required /></td>
-			</tr>
-			<tr>
-				<td><input type="submit" id="saveAccount" class="save" value="save"></td>
-			</tr>
-			</tr>
-		</table>
-	</form>
-</div>
+
+<br />
+<form id="userForm" action="">
+	<table border="0">
+		<tr>
+			<td><label>Id</label></td>
+			<td><input id="id" name="id" type="text" value="<%= id %>" disabled /></td>
+		</tr>
+		<tr>
+			<td><label name="userDetails_userName">Username<br />
+			</label></td>
+			<td><input type="text" name="userDetails_userName" value="<%= userName %>" disabled /></td>
+		</tr>
+		<tr>
+			<td><label name="userDetails_name">Name<br />(min. 10, max. 50 chars)
+			</label></td>
+			<td><input type="text" name="userDetails_name" value="<%= name %>" required /></td>
+		</tr>
+		</tr>
+	</table>
+</form>

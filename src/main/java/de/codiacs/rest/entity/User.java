@@ -5,8 +5,6 @@ import java.util.ArrayList;
 
 import javax.validation.constraints.NotNull;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
 
 //@JsonIgnoreProperties({"password"})
@@ -16,12 +14,10 @@ public class User implements Serializable{
 
 	private Long id;
 
-	@NotNull
-	@Length(min = 10, max = 100)
 	private String userName;
-	
+
 	@NotNull
-	@Length(min = 10, max = 100)
+	@Length(min = 10, max = 30)
 	private String name;
 	
 	private Long lastModified;

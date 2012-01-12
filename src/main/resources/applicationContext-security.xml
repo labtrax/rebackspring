@@ -17,11 +17,11 @@
 		<intercept-url pattern="/modular-backbone/index.html" access="permitAll" />
 		<intercept-url pattern="/modular-backbone/css/**" access="permitAll" />
 
-		<intercept-url pattern="/modular-backbone/js/views/user/userView.js" access="isAuthenticated()" />
-		<intercept-url pattern="/modular-backbone/templates/user/**" access="isAuthenticated()" />
-
-		<intercept-url pattern="/modular-backbone/js/views/users/**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/modular-backbone/templates/users/**" access="hasRole('ROLE_ADMIN')" />
+			<intercept-url pattern="/modular-backbone/js/views/user/UserView.js" access="isAuthenticated()" />
+			<intercept-url pattern="/modular-backbone/templates/user/**" access="isAuthenticated()" />
+	
+			<intercept-url pattern="/modular-backbone/js/views/users/**" access="hasRole('ROLE_ADMIN')" />
+			<intercept-url pattern="/modular-backbone/templates/users/**" access="hasRole('ROLE_ADMIN')" />
 
 		<logout logout-success-url="/modular-backbone/index.html#" />
 		<form-login login-page="/modular-backbone/" />

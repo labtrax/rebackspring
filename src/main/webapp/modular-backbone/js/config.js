@@ -1,1 +1,2 @@
-var globalsRestUrl = "http://localhost:8080/rebackspring/rest/";
+var globalsRestUrl = "/rebackspring/rest/";
+//var globalsRestUrl = "http://rebackspring-malte.rhcloud.com/rest/";
