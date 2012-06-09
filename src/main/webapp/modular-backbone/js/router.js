@@ -52,6 +52,7 @@ define(
 				},
 
 				showAbout : function() {
+				    ApplicationService.getCurrentUser();
 					Tools.resetViewAndNavigation();
 					aboutView.show();
 				},

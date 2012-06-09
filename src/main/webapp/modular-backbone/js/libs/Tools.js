@@ -1,13 +1,22 @@
-var Tools = new function Tools() {
+define([ 'jQuery', 'Underscore', 'Backbone' ], function($, _, Backbone) {
 
-    if (arguments.callee._singletonInstance)
-        return arguments.callee._singletonInstance;
-    arguments.callee._singletonInstance = this;
+    function Tools() {
 
-    this.resetViewAndNavigation = function() {
-        $("#content > div").hide();
-        $("#navigation li").removeClass("active");
-        $("#nav_" + Backbone.history.fragment.replace("/", "")).addClass("active");
+        if (arguments.callee._singletonInstance)
+            return arguments.callee._singletonInstance;
+        arguments.callee._singletonInstance = this;
+
+        this.resetViewAndNavigation = function() {
+            $("#page > div").hide();
+            $("#nav li a").removeClass("selected");
+            $("#nav_" + Backbone.history.fragment.replace("/", "")).addClass("selected");
+
+            // if (classWasSet != null && classWasSet.length < 1)
+            // $("#nav_").addClass("selected");
+        }
+
+        // this.
     }
 
-}
+    return new Tools();
+});
